@@ -1,0 +1,3 @@
+mybatis3=cloud.pandas.apm.plugin.mybatis.define.MyBatisExecutorInstrumentation
+mybatis3=cloud.pandas.apm.plugin.mybatis.define.MyBatisStatementHandlerInstrumentation
+mybatis3=cloud.pandas.apm.plugin.mybatis.define.MyBatisTypeHandlerInstrumentation
