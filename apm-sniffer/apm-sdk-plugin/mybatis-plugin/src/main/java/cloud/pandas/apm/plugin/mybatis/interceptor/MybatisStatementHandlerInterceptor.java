@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import cloud.pandas.apm.plugin.mybatis.MybatisUtils;
 import cloud.pandas.apm.plugin.mybatis.SqlWrapper;
 
-import cn.hutool.core.exceptions.UtilException;
 import cn.hutool.core.util.ReflectUtil;
 import org.apache.skywalking.apm.agent.core.context.ContextManager;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.EnhancedInstance;

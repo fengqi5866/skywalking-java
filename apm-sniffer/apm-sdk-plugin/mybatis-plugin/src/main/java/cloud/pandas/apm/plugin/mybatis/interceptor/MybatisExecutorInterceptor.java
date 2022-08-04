@@ -11,9 +11,10 @@ import com.alibaba.fastjson.JSON;
 
 import cloud.pandas.apm.plugin.mybatis.MybatisUtils;
 import cloud.pandas.apm.plugin.mybatis.SqlWrapper;
-
 import cn.hutool.http.HttpUtil;
 import org.apache.skywalking.apm.agent.core.context.ContextManager;
+import org.apache.skywalking.apm.agent.core.logging.api.ILog;
+import org.apache.skywalking.apm.agent.core.logging.api.LogManager;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.EnhancedInstance;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.InstanceMethodsAroundInterceptor;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.MethodInterceptResult;
@@ -22,6 +23,7 @@ import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.MethodInt
  * @author fengqi
  */
 public class MybatisExecutorInterceptor implements InstanceMethodsAroundInterceptor {
+    private static final ILog LOGGER = LogManager.getLogger(MybatisExecutorInterceptor.class);
 
     private final ThreadLocal<Long> timeHolder = new ThreadLocal<>();
 
@@ -35,15 +37,15 @@ public class MybatisExecutorInterceptor implements InstanceMethodsAroundIntercep
     public Object afterMethod(EnhancedInstance enhancedInstance, Method method, Object[] objects, Class<?>[] classes,
         Object ret) throws Throwable {
         try {
-            int diff = (int) (System.currentTimeMillis() - timeHolder.get());
+            int cost = (int) (System.currentTimeMillis() - timeHolder.get());
             String id = MybatisUtils.getId(objects[0]);
             SqlWrapper sqlWrapper = (SqlWrapper) ContextManager.getRuntimeContext().get(id);
             Map<Integer, Object> paramsMap = MybatisUtils.registerParam();
-            sqlWrapper.setCost(diff);
+            sqlWrapper.setCost(cost);
             format(sqlWrapper, paramsMap);
             ContextManager.getRuntimeContext().remove(id);
-        } catch (Throwable ignored) {
-
+        } catch (Throwable throwable) {
+            LOGGER.error("MybatisExecutorInterceptor: ", throwable);
         } finally {
             timeHolder.remove();
             MybatisUtils.unregisterParam();
@@ -60,6 +62,8 @@ public class MybatisExecutorInterceptor implements InstanceMethodsAroundIntercep
         } catch (Throwable ignored){
 
         }
+        timeHolder.remove();
+        LOGGER.error("MybatisExecutorInterceptor: ", throwable);
     }
 
     public void format(SqlWrapper wrapper, Map<Integer, Object> paramsMap) {
@@ -73,9 +77,10 @@ public class MybatisExecutorInterceptor implements InstanceMethodsAroundIntercep
             List<Object> parameters = new ArrayList<>(paramsMap.values());
             String format = SQLUtils.format(sql, DbType.of(MybatisUtils.getDbType()), parameters);
             wrapper.setSql(format);
-            HttpUtil.createPost(MybatisUtils.getUrl() + "/mybatis/log").body(JSON.toJSONString(wrapper)).execute();
-        } catch (Exception ignored) {
-
+            HttpUtil.createPost(MybatisUtils.getUrl() + "/mybatis/log").body(JSON.toJSONString(wrapper))
+                .execute();
+        } catch (Exception e) {
+            LOGGER.error("MybatisExecutorInterceptor: ", e);
         }
     }
 }

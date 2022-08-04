@@ -1,1 +1,1 @@
-elasticsearch7=cloud.pandas.apm.plugin.mybatis.define.ElasticsearchRestInstrumentation
+elasticsearch7=cloud.pandas.apm.plugin.elasticsearch.define.ElasticsearchRestInstrumentation

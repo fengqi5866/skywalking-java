@@ -16,15 +16,13 @@
  *
  */
 
-package cloud.pandas.apm.plugin.mybatis;
+package cloud.pandas.apm.plugin.elasticsearch;
 
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 
-import static net.bytebuddy.matcher.ElementMatchers.isPrivate;
 import static net.bytebuddy.matcher.ElementMatchers.isPublic;
 import static net.bytebuddy.matcher.ElementMatchers.named;
-import static net.bytebuddy.matcher.ElementMatchers.takesArguments;
 
 public enum ElasticsearchMethodMatch {
     INSTANCE;

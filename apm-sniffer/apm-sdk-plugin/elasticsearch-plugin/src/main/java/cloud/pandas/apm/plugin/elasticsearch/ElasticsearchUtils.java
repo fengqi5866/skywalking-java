@@ -1,4 +1,4 @@
-package cloud.pandas.apm.plugin.mybatis;
+package cloud.pandas.apm.plugin.elasticsearch;
 
 /**
  * @author fengqi

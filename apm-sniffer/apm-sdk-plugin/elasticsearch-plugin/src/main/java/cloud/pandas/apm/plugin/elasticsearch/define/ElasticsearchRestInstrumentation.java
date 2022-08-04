@@ -1,7 +1,7 @@
-package cloud.pandas.apm.plugin.mybatis.define;
+package cloud.pandas.apm.plugin.elasticsearch.define;
 
-import cloud.pandas.apm.plugin.mybatis.ElasticsearchMethodMatch;
-import cloud.pandas.apm.plugin.mybatis.interceptor.ElasticsearchRestInterceptor;
+import cloud.pandas.apm.plugin.elasticsearch.ElasticsearchMethodMatch;
+import cloud.pandas.apm.plugin.elasticsearch.interceptor.ElasticsearchRestInterceptor;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.ConstructorInterceptPoint;

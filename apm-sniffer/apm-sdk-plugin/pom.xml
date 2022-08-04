@@ -142,6 +142,9 @@
 
         <ant-contrib.version>1.0b3</ant-contrib.version>
         <ant-nodeps.version>1.8.1</ant-nodeps.version>
+
+        <hutool.version>5.8.3</hutool.version>
+        <fastjson.version>1.2.83</fastjson.version>
     </properties>
 
     <dependencies>
@@ -169,6 +172,24 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>${hutool.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -190,6 +211,14 @@
                                 <relocation>
                                     <pattern>${shade.net.bytebuddy.source}</pattern>
                                     <shadedPattern>${shade.net.bytebuddy.target}</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>cn.hutool</pattern>
+                                    <shadedPattern>cloud.pandas.shaded.cn.hutool</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.alibaba.fastjson</pattern>
+                                    <shadedPattern>cloud.pandas.shaded.com.alibaba.fastjson</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
